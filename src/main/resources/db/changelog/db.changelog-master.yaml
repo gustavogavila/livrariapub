@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: gustavo
+      changes:
+        - createTable:
+            tableName: LIVRO
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: titulo
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: preco
+                  type: currency
+                  constraints:
+                    nullable: false
+              - column:
+                  name: isbn
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
