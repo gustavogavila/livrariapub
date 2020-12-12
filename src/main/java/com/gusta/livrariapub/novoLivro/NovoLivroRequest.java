@@ -1,5 +1,6 @@
 package com.gusta.livrariapub.novoLivro;
 
+import com.gusta.livrariapub.shared.UniqueValue;
 import org.hibernate.validator.constraints.ISBN;
 
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,7 @@ public class NovoLivroRequest {
 
     @NotBlank
     @ISBN(type = ISBN.Type.ISBN_10)
+    @UniqueValue(domainClass = Livro.class, fieldName = "isbn")
     private String isbn;
 
     public NovoLivroRequest(@NotBlank String titulo, @NotNull @Positive BigDecimal preco, @NotBlank @ISBN(type = ISBN.Type.ISBN_10) String isbn) {
