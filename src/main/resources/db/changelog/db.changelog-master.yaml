@@ -28,3 +28,36 @@ databaseChangeLog:
                   type: varchar(10)
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: 2
+      author: gustavo
+      changes:
+        - createTable:
+            tableName: EXEMPLAR
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: tipo_circulacao
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: livro_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: livro_id
+            baseTableName: EXEMPLAR
+            baseTableSchemaName: public
+            constraintName: fk_exemplar_livro
+            referencedColumnNames: id
+            referencedTableName: livro
+            referencedTableSchemaName: public

@@ -22,6 +22,9 @@ public class Livro {
     private @NotNull @Positive BigDecimal preco;
     private @NotBlank @ISBN(type = ISBN.Type.ISBN_10) String isbn;
 
+    @Deprecated
+    public Livro() {}
+
     public Livro(@NotBlank String titulo, @NotNull @Positive BigDecimal preco, @NotBlank @ISBN(type = ISBN.Type.ISBN_10) String isbn) {
         this.titulo = titulo;
         this.preco = preco;
