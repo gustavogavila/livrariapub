@@ -1,5 +1,6 @@
 package com.gusta.livrariapub.novousuario;
 
+import com.gusta.livrariapub.novolivro.Livro;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -17,6 +18,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
 
+    /**
+     * @deprecated (utilizado apenas pela JPA)
+     */
     @Deprecated
     public Usuario() {}
 

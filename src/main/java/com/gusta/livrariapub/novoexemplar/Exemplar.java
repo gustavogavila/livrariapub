@@ -21,6 +21,13 @@ public class Exemplar {
     @Enumerated(EnumType.STRING)
     private @NotNull TipoCirculacao tipoCirculacao;
 
+    /**
+     * @deprecated (utilizado apenas pela JPA)
+     */
+    @Deprecated
+    public Exemplar() {
+    }
+
     public Exemplar(@NotNull Livro livro, @NotNull @Valid TipoCirculacao tipoCirculacao) {
         this.livro = livro;
         this.tipoCirculacao = tipoCirculacao;
@@ -29,5 +36,9 @@ public class Exemplar {
     public Long getId() {
         Assert.state(id != null, "O id está nulo. Persistiu esse dado?");
         return id;
+    }
+
+    public static boolean isLivreCirculacao(Exemplar exemplar) {
+        return exemplar.tipoCirculacao.equals(TipoCirculacao.LIVRE);
     }
 }

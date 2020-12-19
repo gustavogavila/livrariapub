@@ -1,16 +1,22 @@
 package com.gusta.livrariapub.novolivro;
 
+import com.gusta.livrariapub.novoexemplar.Exemplar;
+import com.gusta.livrariapub.novoexemplar.LivroRepository;
+import com.gusta.livrariapub.novoexemplar.TipoCirculacao;
+import com.gusta.livrariapub.novousuario.Usuario;
 import org.hibernate.validator.constraints.ISBN;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Livro {
@@ -21,7 +27,12 @@ public class Livro {
     private @NotBlank String titulo;
     private @NotNull @Positive BigDecimal preco;
     private @NotBlank @ISBN(type = ISBN.Type.ISBN_10) String isbn;
+    @OneToMany(mappedBy = "livro")
+    private List<Exemplar> exemplares = new ArrayList<>();
 
+    /**
+     * @deprecated (utilizado apenas pela JPA)
+     */
     @Deprecated
     public Livro() {}
 
@@ -34,5 +45,13 @@ public class Livro {
     public Long getId() {
         Assert.state(id != null, "Não rola chamar o getId do livro com id nulo");
         return id;
+    }
+
+    public boolean aceitaSerEmprestado(Usuario usuario) {
+        boolean podeSerEmprestadoParaQualquerPessoa = exemplares.stream().anyMatch(Exemplar::isLivreCirculacao);
+        if (podeSerEmprestadoParaQualquerPessoa) {
+            return true;
+        }
+        return false;
     }
 }
