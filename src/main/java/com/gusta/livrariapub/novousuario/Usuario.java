@@ -1,0 +1,31 @@
+package com.gusta.livrariapub.novousuario;
+
+import org.springframework.util.Assert;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Column(name = "tipo_usuario")
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipo;
+
+    @Deprecated
+    public Usuario() {}
+
+    public Usuario(@NotNull TipoUsuario tipo) {
+        this.tipo = tipo;
+    }
+
+    public Long getId() {
+        Assert.state(id != null, "Id não pode ser nulo. Você persistiu essa entidade?");
+        return id;
+    }
+}

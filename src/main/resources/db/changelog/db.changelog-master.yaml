@@ -61,3 +61,23 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: livro
             referencedTableSchemaName: public
+
+  - changeSet:
+      id: 3
+      author: gustavo
+      changes:
+        - createTable:
+            tableName: USUARIO
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: tipo_usuario
+                  type: varchar
+                  constraints:
+                    nullable: false
