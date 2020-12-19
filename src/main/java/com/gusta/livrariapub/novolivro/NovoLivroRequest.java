@@ -1,4 +1,4 @@
-package com.gusta.livrariapub.novoLivro;
+package com.gusta.livrariapub.novolivro;
 
 import com.gusta.livrariapub.shared.UniqueValue;
 import org.hibernate.validator.constraints.ISBN;

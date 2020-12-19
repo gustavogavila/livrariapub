@@ -1,6 +1,6 @@
-package com.gusta.livrariapub.novoExemplar;
+package com.gusta.livrariapub.novoexemplar;
 
-import com.gusta.livrariapub.novoLivro.Livro;
+import com.gusta.livrariapub.novolivro.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

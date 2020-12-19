@@ -1,4 +1,4 @@
-package com.gusta.livrariapub.novoLivro;
+package com.gusta.livrariapub.novolivro;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

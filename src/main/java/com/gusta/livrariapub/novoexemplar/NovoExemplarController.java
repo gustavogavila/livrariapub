@@ -1,6 +1,6 @@
-package com.gusta.livrariapub.novoExemplar;
+package com.gusta.livrariapub.novoexemplar;
 
-import com.gusta.livrariapub.novoLivro.Livro;
+import com.gusta.livrariapub.novolivro.Livro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +24,12 @@ public class NovoExemplarController {
 
     @PostMapping("livro/{isbn}/exemplares")
     @Transactional
-    public ResponseEntity<?> criar(@PathVariable("isbn") String isbn, @RequestBody @Valid NovoExemplarRequest novoExemplarRequest) {
+    public ResponseEntity<Long> criar(@PathVariable("isbn") String isbn, @RequestBody @Valid NovoExemplarRequest novoExemplarRequest) {
         Optional<Livro> possivelLivro = livroRepository.findByIsbn(isbn);
-        if (possivelLivro.isPresent()) {
+        return possivelLivro.map(livro -> {
             Exemplar exemplar = novoExemplarRequest.toModel(possivelLivro.get());
             entityManager.persist(exemplar);
             return ResponseEntity.ok(exemplar.getId());
-        }
-        return ResponseEntity.notFound().build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

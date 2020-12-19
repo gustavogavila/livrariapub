@@ -1,4 +1,4 @@
-package com.gusta.livrariapub.novoLivro;
+package com.gusta.livrariapub.novolivro;
 
 import org.hibernate.validator.constraints.ISBN;
 import org.springframework.util.Assert;

@@ -1,6 +1,6 @@
-package com.gusta.livrariapub.novoExemplar;
+package com.gusta.livrariapub.novoexemplar;
 
-import com.gusta.livrariapub.novoLivro.Livro;
+import com.gusta.livrariapub.novolivro.Livro;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package com.gusta.livrariapub.novoExemplar;
+package com.gusta.livrariapub.novoexemplar;
 
 public enum TipoCirculacao {
     LIVRE, RESTRITO
