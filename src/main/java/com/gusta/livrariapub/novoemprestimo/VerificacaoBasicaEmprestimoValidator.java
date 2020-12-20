@@ -2,9 +2,11 @@ package com.gusta.livrariapub.novoemprestimo;
 
 import com.gusta.livrariapub.novoexemplar.TipoCirculacao;
 import com.gusta.livrariapub.novolivro.Livro;
+import com.gusta.livrariapub.novousuario.TipoUsuario;
 import com.gusta.livrariapub.novousuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -32,12 +34,20 @@ public class VerificacaoBasicaEmprestimoValidator implements Validator {
         }
 
         NovoEmprestimoRequest request = (NovoEmprestimoRequest) o;
-
         Usuario usuario = entityManager.find(Usuario.class, request.getUsuarioId());
         Livro livro = entityManager.find(Livro.class, request.getLivroId());
 
+        Assert.state(usuario != null, "O usuário deve existir para fazer a validação.");
+        Assert.state(livro != null, "O livro deve existir para fazer a validação.");
+
+        boolean possuiPrazo = request.possuiPrazo();
+
         if (!livro.aceitaSerEmprestado(usuario)) {
-            errors.reject("Este livro não pode ser emprestado.");
+            errors.reject(null,"Este livro não pode ser emprestado.");
+        }
+
+        if (!possuiPrazo && usuario.isTipo(TipoUsuario.PADRAO)) {
+            errors.reject(null,"Para usuário padrão é necessário informar o prazo de devolução.");
         }
 
     }

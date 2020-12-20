@@ -32,4 +32,8 @@ public class Usuario {
         Assert.state(id != null, "Id não pode ser nulo. Você persistiu essa entidade?");
         return id;
     }
+
+    public boolean isTipo(TipoUsuario tipoUsuario) {
+        return this.tipo.equals(tipoUsuario);
+    }
 }

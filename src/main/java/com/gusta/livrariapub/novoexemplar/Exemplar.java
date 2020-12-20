@@ -38,7 +38,7 @@ public class Exemplar {
         return id;
     }
 
-    public static boolean isLivreCirculacao(Exemplar exemplar) {
-        return exemplar.tipoCirculacao.equals(TipoCirculacao.LIVRE);
+    public boolean isTipo(TipoCirculacao tipoCirculacao) {
+        return this.tipoCirculacao.equals(tipoCirculacao);
     }
 }

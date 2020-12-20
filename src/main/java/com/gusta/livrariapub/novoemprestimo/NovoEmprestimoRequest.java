@@ -28,12 +28,16 @@ public class NovoEmprestimoRequest {
     }
 
     public Long getUsuarioId() {
-        Assert.state(usuarioId != null, "Você passsou o id do livro?");
+        Assert.state(usuarioId != null, "Você passsou o id do usuário?");
         return usuarioId;
     }
 
     public Long getLivroId() {
-        Assert.state(livroId != null, "Você passou o id do usuário?");
+        Assert.state(livroId != null, "Você passou o id do livro?");
         return livroId;
+    }
+
+    public boolean possuiPrazo() {
+        return this.diasEmprestimo != null;
     }
 }

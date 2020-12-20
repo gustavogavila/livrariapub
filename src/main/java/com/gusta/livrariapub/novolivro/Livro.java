@@ -3,6 +3,7 @@ package com.gusta.livrariapub.novolivro;
 import com.gusta.livrariapub.novoexemplar.Exemplar;
 import com.gusta.livrariapub.novoexemplar.LivroRepository;
 import com.gusta.livrariapub.novoexemplar.TipoCirculacao;
+import com.gusta.livrariapub.novousuario.TipoUsuario;
 import com.gusta.livrariapub.novousuario.Usuario;
 import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,16 @@ public class Livro {
     }
 
     public boolean aceitaSerEmprestado(Usuario usuario) {
-        boolean podeSerEmprestadoParaQualquerPessoa = exemplares.stream().anyMatch(Exemplar::isLivreCirculacao);
+        boolean podeSerEmprestadoParaQualquerPessoa = exemplares.stream().anyMatch(exemplar -> exemplar.isTipo(TipoCirculacao.LIVRE));
+
+        boolean livroRestrito = exemplares.stream().anyMatch(exemplar -> exemplar.isTipo(TipoCirculacao.RESTRITO));
+        boolean isTipoPesquisador = usuario.isTipo(TipoUsuario.PESQUISADOR);
+        boolean podeSerEmprestadoParaPesquisador = livroRestrito && isTipoPesquisador;
+
+        if (podeSerEmprestadoParaPesquisador) {
+            return true;
+        }
+
         if (podeSerEmprestadoParaQualquerPessoa) {
             return true;
         }
