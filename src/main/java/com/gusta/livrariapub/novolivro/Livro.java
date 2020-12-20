@@ -29,6 +29,7 @@ public class Livro {
     private @NotNull @Positive BigDecimal preco;
     private @NotBlank @ISBN(type = ISBN.Type.ISBN_10) String isbn;
     @OneToMany(mappedBy = "livro")
+    // 1 ponto
     private List<Exemplar> exemplares = new ArrayList<>();
 
     /**
@@ -48,20 +49,9 @@ public class Livro {
         return id;
     }
 
+    // 1 ponto
     public boolean aceitaSerEmprestado(Usuario usuario) {
-        boolean podeSerEmprestadoParaQualquerPessoa = exemplares.stream().anyMatch(exemplar -> exemplar.isTipo(TipoCirculacao.LIVRE));
-
-        boolean livroRestrito = exemplares.stream().anyMatch(exemplar -> exemplar.isTipo(TipoCirculacao.RESTRITO));
-        boolean isTipoPesquisador = usuario.isTipo(TipoUsuario.PESQUISADOR);
-        boolean podeSerEmprestadoParaPesquisador = livroRestrito && isTipoPesquisador;
-
-        if (podeSerEmprestadoParaPesquisador) {
-            return true;
-        }
-
-        if (podeSerEmprestadoParaQualquerPessoa) {
-            return true;
-        }
-        return false;
+        // 1 ponto
+        return exemplares.stream().anyMatch(exemplar -> exemplar.aceita(usuario));
     }
 }

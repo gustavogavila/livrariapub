@@ -1,6 +1,7 @@
 package com.gusta.livrariapub.novoexemplar;
 
 import com.gusta.livrariapub.novolivro.Livro;
+import com.gusta.livrariapub.novousuario.Usuario;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -38,7 +39,7 @@ public class Exemplar {
         return id;
     }
 
-    public boolean isTipo(TipoCirculacao tipoCirculacao) {
-        return this.tipoCirculacao.equals(tipoCirculacao);
+    public boolean aceita(Usuario usuario) {
+        return this.tipoCirculacao.aceita(usuario);
     }
 }
