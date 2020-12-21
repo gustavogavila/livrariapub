@@ -5,8 +5,9 @@ import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.Optional;
 
-public class NovoEmprestimoRequest {
+public class NovoEmprestimoRequest implements PedidoEmprestimoComTempo {
     @NotNull
     @Positive
     private Long usuarioId;
@@ -38,6 +39,6 @@ public class NovoEmprestimoRequest {
     }
 
     public boolean possuiPrazo() {
-        return this.diasEmprestimo != null;
+        return Optional.ofNullable(diasEmprestimo).isPresent();
     }
 }

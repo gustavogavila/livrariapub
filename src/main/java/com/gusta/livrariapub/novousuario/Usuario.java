@@ -1,5 +1,7 @@
 package com.gusta.livrariapub.novousuario;
 
+import com.gusta.livrariapub.novoemprestimo.NovoEmprestimoRequest;
+import com.gusta.livrariapub.novoemprestimo.PedidoEmprestimoComTempo;
 import com.gusta.livrariapub.novolivro.Livro;
 import org.springframework.util.Assert;
 
@@ -35,5 +37,9 @@ public class Usuario {
 
     public boolean isTipo(TipoUsuario tipoUsuario) {
         return this.tipo.equals(tipoUsuario);
+    }
+
+    public boolean tempoEmprestimoValido(PedidoEmprestimoComTempo pedido) {
+        return tipo.aceitaTempoEmprestimoValido(pedido);
     }
 }

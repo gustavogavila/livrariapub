@@ -46,9 +46,8 @@ public class VerificacaoBasicaEmprestimoValidator implements Validator {
             errors.reject(null,"Este livro não pode ser emprestado.");
         }
 
-        if (!possuiPrazo && usuario.isTipo(TipoUsuario.PADRAO)) {
-            errors.reject(null,"Para usuário padrão é necessário informar o prazo de devolução.");
+        if (!usuario.tempoEmprestimoValido(request)) {
+            errors.reject(null, "Você precisa definir o tempo do empréstimo.");
         }
-
     }
 }
