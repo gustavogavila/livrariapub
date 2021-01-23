@@ -30,7 +30,7 @@ public class Livro {
     private @NotBlank String titulo;
     private @NotNull @Positive BigDecimal preco;
     private @NotBlank @ISBN(type = ISBN.Type.ISBN_10) String isbn;
-    @OneToMany(mappedBy = "livro")
+    @OneToMany(mappedBy = "livro", fetch = FetchType.EAGER)
     // 1 ponto
     private List<Exemplar> exemplares = new ArrayList<>();
 
@@ -60,8 +60,22 @@ public class Livro {
     public Emprestimo criarEmprestimo(@NotNull @Valid Usuario usuario, @Positive int diasEmprestimo) {
         Assert.isTrue(this.aceitaSerEmprestado(usuario), "Você está gerando um emprestimo para um tipo de usuário não autorizado");
 
+        // 1 ponto
         Exemplar exemplarSelecionado = exemplares.stream().filter(exemplar -> exemplar.aceita(usuario)).findFirst().get();
 
-        return new Emprestimo(usuario, exemplarSelecionado, diasEmprestimo);
+        Assert.isTrue(exemplarSelecionado.disponivelParaEmprestimo(),
+                "Olha, o seu código não deveria criar um empréstimo para um exemplar que não está disponível.");
+
+        Emprestimo emprestimo = new Emprestimo(usuario, exemplarSelecionado, diasEmprestimo);
+//        exemplarSelecionado.adiciona(emprestimo);
+        // 1 ponto
+        return emprestimo;
+    }
+
+    public boolean estaDisponivelParaEmprestimo() {
+        // Possíveis implementações:
+        // guardar o instante de devolução no próprio empréstimo
+        // criar uma abstração para representar a devolução
+        return exemplares.stream().anyMatch(exemplar -> exemplar.disponivelParaEmprestimo());
     }
 }

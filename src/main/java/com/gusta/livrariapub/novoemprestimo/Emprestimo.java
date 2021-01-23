@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -32,6 +33,9 @@ public class Emprestimo {
     @Column(name = "dias_emprestimo")
     private int diasEmprestimo;
 
+    @Column(name = "instante_devolucao")
+    private Instant instanteDevolucao;
+
     public Emprestimo(@NotNull @Valid Usuario usuario, @NotNull @Valid Exemplar exemplarSelecionado, @Positive int diasEmprestimo) {
         Assert.isTrue(exemplarSelecionado.aceita(usuario),
                 "Olha, você está construindo um emprestimo com um exemplar que nao aceita esse usuario. Será que você verificou corretamente antes?");
@@ -49,5 +53,20 @@ public class Emprestimo {
     public Long getId() {
         Assert.state(Objects.nonNull(id), "Será que vc esqueceu de persistir o empréstimo?");
         return id;
+    }
+
+    public boolean foiDevolvido() {
+        return Objects.nonNull(instanteDevolucao);
+    }
+
+    @Override
+    public String toString() {
+        return "Emprestimo{" +
+                "id=" + id +
+                ", usuario=" + usuario +
+                ", exemplarSelecionado=" + exemplarSelecionado +
+                ", diasEmprestimo=" + diasEmprestimo +
+                ", instanteDevolucao=" + instanteDevolucao +
+                '}';
     }
 }

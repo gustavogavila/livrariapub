@@ -127,3 +127,18 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: exemplar
             referencedTableSchemaName: public
+
+  - changeSet:
+      id: 5
+      author: gustavo
+      preConditions:
+          - onFail: MARK_RAN
+          - tableExists:
+              tableName: emprestimo
+      changes:
+        - addColumn:
+            tableName: emprestimo
+            columns:
+                - column:
+                    name: instante_devolucao
+                    type: timestamp
