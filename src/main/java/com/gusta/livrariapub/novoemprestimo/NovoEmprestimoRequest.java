@@ -1,10 +1,14 @@
 package com.gusta.livrariapub.novoemprestimo;
 
+import com.gusta.livrariapub.novolivro.Livro;
+import com.gusta.livrariapub.novousuario.Usuario;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.util.Assert;
 
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.Objects;
 import java.util.Optional;
 
 public class NovoEmprestimoRequest implements PedidoEmprestimoComTempo {
@@ -40,5 +44,19 @@ public class NovoEmprestimoRequest implements PedidoEmprestimoComTempo {
 
     public boolean possuiPrazo() {
         return Optional.ofNullable(diasEmprestimo).isPresent();
+    }
+
+    public Emprestimo toModel(EntityManager entityManager) {
+        Livro livro = entityManager.find(Livro.class, livroId);
+        Usuario usuario = entityManager.find(Usuario.class, usuarioId);
+
+        Assert.state(Objects.nonNull(livro), "O livro precisa existir nesse ponto do código.");
+        Assert.state(Objects.nonNull(usuario), "O usuário precisa existir nesse ponto do código.");
+        Assert.state(usuario.tempoEmprestimoValido(this), "Olha, você está tentando criar um empréstimo com um tempo não liberado para este usuário.");
+
+        int limiteMaximoTempoEmprestimo = 60;
+        int tempo = Objects.nonNull(diasEmprestimo) ? diasEmprestimo.intValue() : limiteMaximoTempoEmprestimo;
+
+        return livro.criarEmprestimo(usuario, tempo);
     }
 }

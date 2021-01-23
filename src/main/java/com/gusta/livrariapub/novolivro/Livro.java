@@ -1,5 +1,6 @@
 package com.gusta.livrariapub.novolivro;
 
+import com.gusta.livrariapub.novoemprestimo.Emprestimo;
 import com.gusta.livrariapub.novoexemplar.Exemplar;
 import com.gusta.livrariapub.novoexemplar.LivroRepository;
 import com.gusta.livrariapub.novoexemplar.TipoCirculacao;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -53,5 +55,13 @@ public class Livro {
     public boolean aceitaSerEmprestado(Usuario usuario) {
         // 1 ponto
         return exemplares.stream().anyMatch(exemplar -> exemplar.aceita(usuario));
+    }
+
+    public Emprestimo criarEmprestimo(@NotNull @Valid Usuario usuario, @Positive int diasEmprestimo) {
+        Assert.isTrue(this.aceitaSerEmprestado(usuario), "Você está gerando um emprestimo para um tipo de usuário não autorizado");
+
+        Exemplar exemplarSelecionado = exemplares.stream().filter(exemplar -> exemplar.aceita(usuario)).findFirst().get();
+
+        return new Emprestimo(usuario, exemplarSelecionado, diasEmprestimo);
     }
 }

@@ -81,3 +81,49 @@ databaseChangeLog:
                   type: varchar
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: 4
+      author: gustavo
+      changes:
+        - createTable:
+            tableName: EMPRESTIMO
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: usuario_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exemplar_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dias_emprestimo
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: usuario_id
+            baseTableName: EMPRESTIMO
+            baseTableSchemaName: public
+            constraintName: fk_emprestimo_usuario
+            referencedColumnNames: id
+            referencedTableName: usuario
+            referencedTableSchemaName: public
+        - addForeignKeyConstraint:
+            baseColumnNames: exemplar_id
+            baseTableName: EMPRESTIMO
+            baseTableSchemaName: public
+            constraintName: fk_emprestimo_exemplar
+            referencedColumnNames: id
+            referencedTableName: exemplar
+            referencedTableSchemaName: public
