@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-public class Emprestimo {
+public class Emprestimo implements Comparable<Emprestimo> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +35,9 @@ public class Emprestimo {
 
     @Column(name = "instante_devolucao")
     private Instant instanteDevolucao;
+
+    @Column(name = "instante_emprestimo")
+    private Instant instanteEmprestimo = Instant.now();
 
     public Emprestimo(@NotNull @Valid Usuario usuario, @NotNull @Valid Exemplar exemplarSelecionado, @Positive int diasEmprestimo) {
         Assert.isTrue(exemplarSelecionado.aceita(usuario),
@@ -68,5 +71,10 @@ public class Emprestimo {
                 ", diasEmprestimo=" + diasEmprestimo +
                 ", instanteDevolucao=" + instanteDevolucao +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Emprestimo outro) {
+        return instanteEmprestimo.compareTo(outro.instanteEmprestimo);
     }
 }

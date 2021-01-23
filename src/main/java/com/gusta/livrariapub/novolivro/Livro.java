@@ -63,11 +63,12 @@ public class Livro {
         // 1 ponto
         Exemplar exemplarSelecionado = exemplares.stream().filter(exemplar -> exemplar.aceita(usuario)).findFirst().get();
 
+        // FIXME Quando se tem mais de 1 exemplar de livro, essa verificação sempre retorna falso, lançando um erro 500. Necessário verificar
         Assert.isTrue(exemplarSelecionado.disponivelParaEmprestimo(),
                 "Olha, o seu código não deveria criar um empréstimo para um exemplar que não está disponível.");
 
         Emprestimo emprestimo = new Emprestimo(usuario, exemplarSelecionado, diasEmprestimo);
-//        exemplarSelecionado.adiciona(emprestimo);
+        exemplarSelecionado.adiciona(emprestimo);
         // 1 ponto
         return emprestimo;
     }

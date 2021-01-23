@@ -11,6 +11,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Entity
 public class Exemplar {
@@ -27,7 +29,8 @@ public class Exemplar {
     private @NotNull TipoCirculacao tipoCirculacao;
 
     @OneToMany(mappedBy = "exemplarSelecionado")
-    private List<Emprestimo> emprestimos = new ArrayList<>();
+    @OrderBy("instante_emprestimo asc")
+    private SortedSet<Emprestimo> emprestimos = new TreeSet<>();
 
     /**
      * @deprecated (utilizado apenas pela JPA)
@@ -51,6 +54,7 @@ public class Exemplar {
     }
 
     public boolean disponivelParaEmprestimo() {
+        // FIXME Quando se tem mais de 1 exemplar de livro, esse método sempre retorna falso, lançando um erro 500. Necessário verificar
         System.out.println(emprestimos);
         return emprestimos.isEmpty() || emprestimos.stream().allMatch(emprestimo -> emprestimo.foiDevolvido());
     }
